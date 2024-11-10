@@ -15,4 +15,6 @@ import { env } from "./config";
 
 const pool = new Pool({
 	connectionString: env.POSTGRES_URL,
-})
+});
+
+export default pool;
