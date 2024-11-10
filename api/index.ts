@@ -7,21 +7,21 @@ const app: Express = express();
 const port = env.PORT || 4000;
 
 
-app.get("/products", async (req: Request, res: Response, next: NextFunction) => {
+// app.get("/products", async (req: Request, res: Response, next: NextFunction) => {
     
-    try {
+//     try {
 
-        const result = await db.query("SELECT * FROM products");
-        const users = result.rows;
+//         const result = await db.query("SELECT * FROM products");
+//         const users = result.rows;
 
-        res.json(users);
+//         res.json(users);
 
-    } catch (err) {
+//     } catch (err) {
 
-        next(err);
-    }
+//         next(err);
+//     }
 
-});
+// });
 
 app.get("/", (req: Request, res: Response, next: NextFunction) => {
     res.send("Express + TypeScript Server");
