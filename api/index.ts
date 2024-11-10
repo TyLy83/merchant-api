@@ -28,7 +28,7 @@ app.get("/products", async (req: Request, res: Response, next: NextFunction) => 
     
     try {
 
-        const result = await db.query("SELECT id, username, email FROM products");
+        const result = await db.query("SELECT * FROM products");
         const users = result.rows;
 
         res.json(users);
@@ -37,7 +37,7 @@ app.get("/products", async (req: Request, res: Response, next: NextFunction) => 
 
         next(err);
     }
-    
+
 });
 
 app.get("/", (req: Request, res: Response, next: NextFunction) => {
