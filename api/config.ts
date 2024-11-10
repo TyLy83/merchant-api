@@ -11,6 +11,7 @@ export const env = cleanEnv(process.env, {
     POSTGRES_DATABASE: str(),
     PORT: port({ default: 4000 }),
 
-    // JWT_SECRET: str(),
-    // FRONTEND_URL: url()
+    JWT_SECRET: str(),
+    FRONTEND_URL: url(),
+    POSTGRES_URL:str()
 });
