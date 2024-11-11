@@ -1,36 +1,37 @@
-// import express, { Express, Request, Response, NextFunction } from "express";
-// import { env } from "./config";
+// import express, { Express, NextFunction, Request, Response } from "express";
+// import dotenv from "dotenv";
 
-// import db from "./db";
+// dotenv.config();
 
 // const app: Express = express();
-// const port = env.PORT || 4000;
+// const port = process.env.PORT || 3000;
 
+// app.use(express.json());
+// app.use(express.urlencoded({ extended: true }));
 
-// app.get("/products", async (req: Request, res: Response, next: NextFunction) => {
-    
-//     try {
-
-//         const result = await db.query("SELECT * FROM products");
-//         const users = result.rows;
-
-//         res.json(users);
-
-//     } catch (err) {
-
-//         next(err);
-//     }
-
-// });
-
-// app.get("/", (req: Request, res: Response, next: NextFunction) => {
+// app.get("/", (req: Request, res: Response) => {
 //     res.send("Express + TypeScript Server");
 // });
+
+// app.post("/add", (req: Request, res: Response, next: NextFunction) => {
+
+//     try {
+
+//         console.log("req.body", req.body.name);
+
+//         res.status(200).send("Post request");
+
+//     } catch (error) {
+
+//         next(error);
+
+//     }
+
+// })
 
 // app.listen(port, () => {
 //     console.log(`[server]: Server is running at http://localhost:${port}`);
 // });
-
 
 import App from "./app";
 import ProductController from "./controllers/product";

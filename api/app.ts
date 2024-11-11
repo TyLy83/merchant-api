@@ -1,25 +1,26 @@
-import express, { Application, Request, Response, NextFunction } from "express";
-import cors from "cors";
+import express, { Express, NextFunction, Request, Response } from "express";
 import path from "path";
-import { env } from "./config";
-import { type Controller } from "./interfaces/controller.interface";
+
+import { type Controller } from "./interfaces/controller";
+import env from "./env";
 
 class App {
 
-    private app: Application;
+    private app: Express;
 
     constructor(controllers: Controller[]) {
 
         this.app = express();
-        this.initializeControllers(controllers);
         this.initializeMiddlewares();
+        this.initializeControllers(controllers);
+
     }
 
     private initializeMiddlewares() {
+
         this.app.use(express.json());
-        this.app.use(cors());
-        // this.app.use(cors({ origin: env.FRONTEND_URL, credentials: true }));
-        // this.app.use(cookieParser());
+        this.app.use(express.urlencoded({ extended: true }));
+
     }
 
     private initializeControllers(controllers: Controller[]) {
@@ -28,9 +29,25 @@ class App {
             this.app.use("/", controller.router);
         });
 
-        this.app.use("/", (_: Request, res: Response) => {
+        this.app.get("/", (req: Request, res: Response) => {
 
-            res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
+            res.sendFile(path.join(__dirname, '..', 'public', 'index.htm'));
+
+        });
+
+        this.app.post("/add", (req: Request, res: Response, next: NextFunction) => {
+
+            try {
+
+                console.log("req.body", req.body.name);
+
+                res.status(200).send("Post request");
+
+            } catch (error) {
+
+                next(error);
+
+            }
 
         });
 
@@ -46,4 +63,4 @@ class App {
 
 }
 
-export default App
+export default App;
