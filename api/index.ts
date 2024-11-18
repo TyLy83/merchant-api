@@ -1,41 +1,23 @@
-// import express, { Express, NextFunction, Request, Response } from "express";
-// import dotenv from "dotenv";
-
-// dotenv.config();
-
-// const app: Express = express();
-// const port = process.env.PORT || 3000;
-
-// app.use(express.json());
-// app.use(express.urlencoded({ extended: true }));
-
-// app.get("/", (req: Request, res: Response) => {
-//     res.send("Express + TypeScript Server");
-// });
-
-// app.post("/add", (req: Request, res: Response, next: NextFunction) => {
-
-//     try {
-
-//         console.log("req.body", req.body.name);
-
-//         res.status(200).send("Post request");
-
-//     } catch (error) {
-
-//         next(error);
-
-//     }
-
-// })
-
-// app.listen(port, () => {
-//     console.log(`[server]: Server is running at http://localhost:${port}`);
-// });
 
 import App from "./app";
-import ProductController from "./controllers/product";
+import ProductController from "./controllers/product.controller";
+import AuthController from "./controllers/auth.controller";
+import ContactController from "./controllers/contact.controller";
+import StoreController from "./controllers/store";
+import LocationController from "./controllers/location.controller";
+import ProductVariantController from "./controllers/product.variant.controller";
+import CategoryController from "./controllers/category.controller";
+import ProdcutVariantOptionController from "./controllers/product.variant.option.controller";
 
-const app = new App([new ProductController()]);
+const app = new App([
+    new AuthController(), 
+    new ContactController(), 
+    new StoreController(),
+    new ProductController(), 
+    new LocationController(),
+    new ProductVariantController(),
+    new CategoryController(),
+    new ProdcutVariantOptionController()
+]);
 
 app.listen();

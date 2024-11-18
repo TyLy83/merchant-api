@@ -1,7 +1,8 @@
 import express, { Express, NextFunction, Request, Response } from "express";
 import path from "path";
 
-import { type Controller } from "./interfaces/controller";
+import { type Controller } from "./interfaces/controller.interface";
+import HttpError from "./interfaces/http.error.interface";
 import env from "./env";
 
 class App {
@@ -35,19 +36,12 @@ class App {
 
         });
 
-        this.app.post("/add", (req: Request, res: Response, next: NextFunction) => {
+        this.app.use((error: HttpError, request: Request, response: Response, next: NextFunction) => {
 
-            try {
+            const status: number = error.status || 500;
+            const message: string = error.message || "Internal server error";
 
-                console.log("req.body", req.body.name);
-
-                res.status(200).send("Post request");
-
-            } catch (error) {
-
-                next(error);
-
-            }
+            response.status(status).json({ error: message });
 
         });
 
@@ -56,7 +50,7 @@ class App {
     public listen() {
 
         this.app.listen(env.PORT, () => {
-            console.log(`[server]: Server is running at http://localhost:${env.PORT}`);
+            console.log(`Server is running at http://localhost:${env.PORT}`);
         });
 
     }
