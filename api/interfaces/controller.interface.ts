@@ -1,6 +1,6 @@
 import { Router } from "express";
 
-export abstract class Controller {
+abstract class IController {
 
     public router: Router;
 
@@ -11,3 +11,5 @@ export abstract class Controller {
     protected abstract initializeRoutes(): void;
     
 }
+
+export default IController;

@@ -1,12 +1,12 @@
 import { NextFunction, Request, Response } from "express";
 import { param, query, body, validationResult } from "express-validator";
-import { Controller } from "../interfaces/controller.interface";
+import IController from "../interfaces/controller.interface";
 import Service from "../services/category.service";
 import Model from "../models/category.model";
 
 import db from "../db";
 
-class Category extends Controller {
+class Category extends IController {
 
     constructor() {
         super("/categories");

@@ -2,11 +2,11 @@ import IModel from "../interfaces/model.interface";
 
 class Model implements IModel {
 
-    public id?: number;
-    public name?: string;
-    public price?: number;
-    public store?: number;
-    public category?: number;
+    public id?: number | undefined;
+    public name?: string | undefined;
+    public price?: number | undefined;
+    public store?: number | undefined;
+    public category?: number | undefined;
 
 }
 

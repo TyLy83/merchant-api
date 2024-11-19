@@ -30,5 +30,37 @@
 
 -- SELECT id, name, price, store FROM products WHERE store=2
 
-SELECT * FROM product_variant_options
+-- SELECT contacts.id, contacts.first_name, contacts.last_name, contacts.mobile, logins.email FROM contacts
+-- JOIN logins ON contacts.login = logins.id
+-- WHERE contacts.id = 1
+
+-- SELECT stores.id, stores.name, stores.login,
+-- 	locations.street_number, locations.street_name, 
+-- 	locations.suburb, locations.city, locations.postal_code 
+-- FROM stores
+-- JOIN locations ON locations.store = stores.id
+-- WHERE stores.name LIKE 'demon lord cafe%'
+
+-- SELECT * FROM logins
+
+-- DELETE FROM logins WHERE id=1 RETURNING *
+
+-- SELECT * FROM roles
+
+-- SELECT * FROM user_roles;
+
+-- ALTER TABLE user_roles
+-- DROP COLUMN name;
+
+-- SELECT roles.name FROM user_roles 
+-- JOIN roles ON roles.id = user_roles.role;
+
+-- INSERT INTO logins(email, password, first_name, last_name, mobile)
+-- VALUES('john.doe@gmail.com', 'PleaseLetJohnDoeIn1!', 'john', 'doe', '0278877099')
+
+-- INSERT INTO roles(name)
+-- VALUES('user'), ('admin'), ('super admin');
+
+SELECT * FROM roles;
+
 

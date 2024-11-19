@@ -1,7 +1,7 @@
 import express, { Express, NextFunction, Request, Response } from "express";
 import path from "path";
 
-import { type Controller } from "./interfaces/controller.interface";
+import IController from "./interfaces/controller.interface";
 import HttpError from "./interfaces/http.error.interface";
 import env from "./env";
 
@@ -9,7 +9,7 @@ class App {
 
     private app: Express;
 
-    constructor(controllers: Controller[]) {
+    constructor(controllers: IController[]) {
 
         this.app = express();
         this.initializeMiddlewares();
@@ -24,7 +24,7 @@ class App {
 
     }
 
-    private initializeControllers(controllers: Controller[]) {
+    private initializeControllers(controllers: IController[]) {
 
         controllers.forEach((controller) => {
             this.app.use("/", controller.router);

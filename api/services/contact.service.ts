@@ -6,16 +6,18 @@ class ContactService  {
 
     repository = new Repository();
 
-    async addContact (model:Model) {
+    // async addContact (model:Model) {
 
-        const result = await this.repository.createRecord(model);
+    //     // const result = await this.repository.createRecord(model);
 
-        if(!result)
-            throw new BadRequestError('failed to create contact');
+    //     // if(!result)
+    //     //     throw new BadRequestError('failed to create contact');
 
-        return result;
+    //     // return result;
+        
+    //     return model;
 
-    }
+    // }
 
     async getContact (id:number) {
 
@@ -49,16 +51,16 @@ class ContactService  {
 
     }
 
-    async getContacts(login:number) {
+    // async getContacts(login:number) {
 
-        const result = await this.repository.getContacts(login);
+    //     const result = await this.repository.getContacts(login);
 
-        if(!result)
-            throw new BadRequestError('contacts not found');
+    //     if(!result)
+    //         throw new BadRequestError('contacts not found');
 
-        return result;
+    //     return result;
 
-    }
+    // }
 
 }
 

@@ -1,4 +1,5 @@
 import bcrypt from "bcrypt";
+import jwt, { Secret, JwtPayload } from 'jsonwebtoken';
 import Repository from "../repositories/auth.repository";
 import Contact from "../repositories/contact.repository";
 import Model from "../models/auth.model"
@@ -53,9 +54,11 @@ class AuthService {
 
         }
 
-        user.password = undefined;
+        const token = jwt.sign({id: user.id, email:user.email}, env.JWT_SECRET, { expiresIn: "1hr"})
 
-        return user;
+        // user.password = undefined;
+
+        return { token }
 
     }
 

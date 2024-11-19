@@ -1,11 +1,11 @@
 import { NextFunction, Request, Response } from "express";
 import { param, query, body, validationResult } from "express-validator";
-import { Controller } from "../interfaces/controller.interface";
+import IController from "../interfaces/controller.interface";
 
 import Model from "../models/product.variant.option.model";
 import Service from "../services/product.variant.option.service";
 
-class ProductVariant extends Controller {
+class ProductVariant extends IController {
 
     private service;
 

@@ -1,17 +1,17 @@
 import { NextFunction, Request, Response } from "express";
 import { param, query, body, check, validationResult } from "express-validator";
 import bcrypt from "bcrypt";
-import { Controller } from "../interfaces/controller.interface";
+import IController from "../interfaces/controller.interface";
 
 import Model from "../models/auth.model";
 import Service from "../services/auth.service";
 
-import db from "../db";
-import { BadRequestError } from "../errors";
+import authorization from "../authorization";
 
 import env from "../env";
+import { request } from "http";
 
-class Auth extends Controller {
+class Auth extends IController {
 
     private saltRound: number = env.SALT_ROUND;
     private service = new Service();
@@ -26,7 +26,7 @@ class Auth extends Controller {
         this.router.post(`${this.path}/login`, this.loginValadator, this.login);
         this.router.post(`${this.path}/register`, this.registerValidator, this.register);
         this.router.put(`${this.path}/reset`, this.resetValadator, this.resetPassword);
-        this.router.get(`${this.path}/details/:id`, this.getUserByIdValidator, this.getUserById)
+        this.router.get(`${this.path}/details/:id`, authorization, this.getUserByIdValidator, this.getUserById)
     }
 
     private resetValadator = [

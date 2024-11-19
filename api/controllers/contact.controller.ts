@@ -1,12 +1,12 @@
 import { NextFunction, Request, Response } from "express";
 import { param, query, body, validationResult } from "express-validator";
-import { Controller } from "../interfaces/controller.interface";
+import IController from "../interfaces/controller.interface";
 import Service from "../services/contact.service";
 import Model from "../models/contact.model";
 
 import db from "../db";
 
-class Contact extends Controller {
+class Contact extends IController {
 
     constructor() {
         super("/contacts");
@@ -44,72 +44,72 @@ class Contact extends Controller {
     ]
 
     protected initializeRoutes() {
-        this.router.get(this.path, this.getAllValidator, this.getContacts);
-        this.router.post(`${this.path}/add`, this.addValidator, this.addContact);
+        // this.router.get(this.path, this.getAllValidator, this.getContacts);
+        // this.router.post(`${this.path}/add`, this.addValidator, this.addContact);
         this.router.put(`${this.path}/edit/:id`, this.editValidator, this.editContact);
         this.router.get(`${this.path}/details/:id`, this.getValidator, this.getContact);
         this.router.delete(`${this.path}/delete/:id`, this.deleteValidator, this.deleteContact);
     }
 
-    private getContacts = async (request: Request, response: Response, next: NextFunction) => {
+    // private getContacts = async (request: Request, response: Response, next: NextFunction) => {
 
-        try {
+    //     try {
 
-            // const result = await db.query("SELECT * FROM contacts");
-            // response.json([...result.rows]);
-            const store: number = parseInt(request.query.store as string);
+    //         // const result = await db.query("SELECT * FROM contacts");
+    //         // response.json([...result.rows]);
+    //         const store: number = parseInt(request.query.store as string);
 
-            const result = await this.service.getContact(store);
+    //         const result = await this.service.getContact(store);
 
-            response.status(200).json(result);
+    //         response.status(200).json(result);
 
-        } catch (err) {
+    //     } catch (err) {
 
-            next(err);
+    //         next(err);
 
-        }
+    //     }
 
-    };
+    // };
 
-    private addContact = async (request: Request, response: Response, next: NextFunction) => {
+    // private addContact = async (request: Request, response: Response, next: NextFunction) => {
 
-        try {
+    //     try {
 
-            const errors = validationResult(request);
+    //         const errors = validationResult(request);
 
-            if (errors.isEmpty()) {
+    //         if (errors.isEmpty()) {
 
-                // const { first_name, last_name, mobile, login } = request.body;
+    //             // const { first_name, last_name, mobile, login } = request.body;
 
-                // const query = `INSERT INTO contacts (first_name, last_name, mobile) VALUES ($1, $2, $3, $4) RETURNING *`;
-                // const result = await db.query(query, [first_name, last_name, mobile, login]);
+    //             // const query = `INSERT INTO contacts (first_name, last_name, mobile) VALUES ($1, $2, $3, $4) RETURNING *`;
+    //             // const result = await db.query(query, [first_name, last_name, mobile, login]);
 
-                // response.status(201).json({ ...result.rows[0] });
+    //             // response.status(201).json({ ...result.rows[0] });
 
-                const model = new Model();
+    //             const model = new Model();
 
-                model.first_name = request.body.first_name as string;
-                model.last_name = request.body.last_name as string;
-                model.mobile = request.body.mobile as string;
-                model.login = parseInt(request.body.login as string);
+    //             model.first_name = request.body.first_name as string;
+    //             model.last_name = request.body.last_name as string;
+    //             model.mobile = request.body.mobile as string;
+    //             model.login = parseInt(request.body.login as string);
 
-                const result = await this.service.addContact(model);
+    //             const result = await this.service.addContact(model);
 
-                response.status(201).json(result);
+    //             response.status(201).json(result);
 
-            } else {
+    //         } else {
 
-                response.status(500).json({ errors: errors.array() });
+    //             response.status(500).json({ errors: errors.array() });
 
-            }
+    //         }
 
-        } catch (error) {
+    //     } catch (error) {
 
-            next(error);
+    //         next(error);
 
-        }
+    //     }
 
-    }
+    // }
 
     private editContact = async (request: Request, response: Response, next: NextFunction) => {
 
@@ -119,14 +119,6 @@ class Contact extends Controller {
 
             if (errors.isEmpty()) {
 
-                // const { id } = request.params;
-                // const { first_name, last_name, mobile } = request.body;
-
-                // const query = "UPDATE contacts SET first_name = $2, last_name = $3, mobile= $4  WHERE id = $1 RETURNING *";
-
-                // const result = await db.query(query, [id, first_name, last_name, mobile]);
-
-                // response.status(200).json({ ...result.rows[0] });
                 const model = new Model();
 
                 model.id = parseInt(request.params.id as string);

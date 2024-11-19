@@ -6,14 +6,20 @@ export class BadRequestError extends HttpError {
         super(400, message || "Bad Request");
     }
 
+    // constructor(message?: string);
+
+    // constructor(message?: string, public messages?: string[]) {
+    //     super(400, message || "Bad Request");
+    // }
+
 }
 
 export class ForbiddenError extends HttpError {
 
-	constructor(message?: string) {
-		super(403, message || "Forbidden");
-	}
-	
+    constructor(message?: string) {
+        super(403, message || "Forbidden");
+    }
+
 }
 
 export class NotFoundError extends HttpError {
@@ -21,7 +27,7 @@ export class NotFoundError extends HttpError {
     constructor(message?: string) {
         super(404, message || "Not Found");
     }
-    
+
 }
 
 export class UnauthorizedError extends HttpError {

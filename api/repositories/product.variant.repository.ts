@@ -65,7 +65,7 @@ class ProductVariantRepository implements Repostiry {
         const result = await db.query(`
                 SELECT id, name, max_number, min_number
                 FROM ${this.table}
-                WHERE id=$1
+                WHERE product=$1
             `, [product]);
 
         return result.rows;

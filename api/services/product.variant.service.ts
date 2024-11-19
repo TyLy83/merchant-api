@@ -1,4 +1,5 @@
 import ProductVariantRepository from "../repositories/product.variant.repository";
+import ProductVariantOptionRepository from "../repositories/product.variant.option.repository";
 import ProductVariantModel from "../models/product.variant.model";
 
 import { NotFoundError, BadRequestError } from "../errors";
@@ -6,13 +7,10 @@ import { NotFoundError, BadRequestError } from "../errors";
 
 class ProductVariantService {
 
-    private repository;
+    private repository = new ProductVariantRepository();
+    private productVariantOptions = new ProductVariantOptionRepository();
 
-    constructor() {
-        this.repository = new ProductVariantRepository();
-    }
-
-    async getProductVariants (product: number) {
+    async getProductVariants(product: number) {
 
         const result = await this.repository.findAllRecords(product);
 
@@ -38,10 +36,12 @@ class ProductVariantService {
 
         const result = await this.repository.findRecord(id);
 
-        if(!result)
+        if (!result)
             throw new BadRequestError();
 
-        return result;
+        const product_variant_options = await this.productVariantOptions.findAllRecords(id);
+
+        return { ...result, product_variant_options }
 
     }
 
@@ -49,7 +49,7 @@ class ProductVariantService {
 
         const result = await this.repository.updateRecord(product_variant);
 
-        if(!result)
+        if (!result)
             throw new BadRequestError();
 
         return result;
@@ -60,7 +60,7 @@ class ProductVariantService {
 
         const result = await this.repository.deleteRecord(id);
 
-        if(!result)
+        if (!result)
             throw new BadRequestError();
 
         return result;
