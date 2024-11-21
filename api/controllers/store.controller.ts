@@ -4,6 +4,7 @@ import IController from "../interfaces/controller.interface";
 
 import Model from "../models/store.model";
 import Service from "../services/store.service";
+import Permission from "../services/permission.service";
 
 import db from "../db";
 
@@ -15,6 +16,7 @@ class Store extends IController {
     }
 
     private service = new Service();
+    private permission = new Permission(['user', 'admin']);
 
     private addValidator = [
         body('name').notEmpty().withMessage('name must not be empty'),
@@ -46,10 +48,10 @@ class Store extends IController {
 
     protected initializeRoutes() {
         this.router.get(this.path, this.getAllValidator, this.getStores);
-        this.router.post(`${this.path}/add`, this.addValidator, this.addStore);
-        this.router.put(`${this.path}/edit/:id`, this.editValidator, this.editStore);
-        this.router.get(`${this.path}/details/:id`, this.getValidator, this.getStore);
-        this.router.delete(`${this.path}/delete/:id`, this.deleteValidator, this.deleteStore);
+        this.router.post(`${this.path}/add`, this.permission.authenticate, this.permission.authorize, this.addValidator, this.addStore);
+        this.router.put(`${this.path}/edit/:id`,this.permission.authenticate, this.permission.authorize, this.editValidator, this.editStore);
+        this.router.get(`${this.path}/details/:id`, this.permission.authenticate, this.permission.authorize, this.getValidator, this.getStore);
+        this.router.delete(`${this.path}/delete/:id`, this.permission.authenticate, this.permission.authorize, this.deleteValidator, this.deleteStore);
     }
 
     private getStores = async (request: Request, response: Response, next: NextFunction) => {

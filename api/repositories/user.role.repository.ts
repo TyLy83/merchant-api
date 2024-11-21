@@ -70,7 +70,7 @@ class Repository implements IRepository {
         const result = await db.query(`SELECT ${this.table}.id, ${this.role}.name
             FROM ${this.table}
             JOIN ${this.role} ON ${this.role}.id = ${this.table}.role
-            WHERE ${this.role}.login = $1`, [user]);
+            WHERE ${this.table}.login = $1`, [user]);
 
         return result.rows;
 

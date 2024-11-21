@@ -1,6 +1,7 @@
 import bcrypt from "bcrypt";
 import jwt, { Secret, JwtPayload } from 'jsonwebtoken';
 import Repository from "../repositories/auth.repository";
+import Role from "../repositories/user.role.repository";
 import Contact from "../repositories/contact.repository";
 import Model from "../models/auth.model"
 import { BadRequestError, NotFoundError } from "../errors";
@@ -11,6 +12,7 @@ class AuthService {
 
     private repository = new Repository();
     private contact = new Contact();
+    private role = new Role();
 
     public async register(model: Model) {
 
@@ -40,21 +42,21 @@ class AuthService {
 
         const user = await this.repository.findRecordByEmail(email);
 
-        if (!user) {
-
+        if (!user)
             throw new BadRequestError("invalid email or password");
-
-        }
 
         const matched = await bcrypt.compare(str_password, user.password as string);
 
-        if (!matched) {
-
+        if (!matched)
             throw new BadRequestError("Invalid email or password");
 
-        }
+        const id: number = parseInt(user.id as unknown as string);
 
-        const token = jwt.sign({id: user.id, email:user.email}, env.JWT_SECRET, { expiresIn: "1hr"})
+        const roles = await this.role.getAllRoleByUserId(id);
+
+        const user_roles: string[] = roles.map(({ name }) => name);
+
+        const token = jwt.sign({ id: user.id, email: user.email, user_roles }, env.JWT_SECRET, { expiresIn: "1hr" })
 
         // user.password = undefined;
 
@@ -101,26 +103,21 @@ class AuthService {
 
         const result = this.repository.findRecordByEmail(email);
 
-        if(!result)
+        if (!result)
             throw new NotFoundError('user not found');
 
         return result;
 
     }
 
-    async getUserById(id:number) {
+    async getUserById(id: number) {
 
         const result = await this.repository.findRecord(id);
 
-        if(!result)
+        if (!result)
             throw new BadRequestError('user not found');
 
-        const contacts = await this.contact.getContacts(id);
-
-        return {
-            ...result,
-            contacts
-        }
+        return result;
 
     }
 

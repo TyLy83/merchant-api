@@ -24,6 +24,16 @@ class App {
 
     }
 
+    private errorHandler(error: HttpError, request: Request, response: Response, next: NextFunction) {
+
+        console.log(error.stack);
+        const status: number = error.status || 500;
+        const message: string = error.message || "Internal server error";
+
+        response.status(status).json({ error: message });
+
+    }
+
     private initializeControllers(controllers: IController[]) {
 
         controllers.forEach((controller) => {
@@ -36,14 +46,7 @@ class App {
 
         });
 
-        this.app.use((error: HttpError, request: Request, response: Response, next: NextFunction) => {
-
-            const status: number = error.status || 500;
-            const message: string = error.message || "Internal server error";
-
-            response.status(status).json({ error: message });
-
-        });
+        this.app.use(this.errorHandler);
 
     }
 

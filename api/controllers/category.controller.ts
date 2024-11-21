@@ -2,19 +2,18 @@ import { NextFunction, Request, Response } from "express";
 import { param, query, body, validationResult } from "express-validator";
 import IController from "../interfaces/controller.interface";
 import Service from "../services/category.service";
+import Permission from "../services/permission.service";
 import Model from "../models/category.model";
-
-import db from "../db";
 
 class Category extends IController {
 
     constructor() {
         super("/categories");
         this.initializeRoutes();
-        this.service = new Service();
     }
 
-    private service;
+    private service = new Service();
+    private permissions = new Permission(['admin']);
 
     private addValidator = [
         body('name').notEmpty().withMessage('name must not be empty'),
@@ -40,10 +39,10 @@ class Category extends IController {
 
     protected initializeRoutes() {
         this.router.get(this.path, this.getAllValidator, this.getCategories);
-        this.router.post(`${this.path}/add`, this.addValidator, this.addCategory);
-        this.router.put(`${this.path}/edit/:id`, this.editValidator, this.editCategory);
         this.router.get(`${this.path}/details/:id`, this.getValidator, this.getCategory);
-        this.router.delete(`${this.path}/delete/:id`, this.deleteValidator, this.deleteCategory);
+        this.router.post(`${this.path}/add`, this.permissions.authenticate, this.permissions.authorize, this.addValidator, this.addCategory);
+        this.router.put(`${this.path}/edit/:id`,this.permissions.authenticate, this.permissions.authorize, this.editValidator, this.editCategory);
+        this.router.delete(`${this.path}/delete/:id`, this.permissions.authenticate, this.permissions.authorize, this.deleteValidator, this.deleteCategory);
     }
 
     private getCategories = async (request: Request, response: Response, next: NextFunction) => {

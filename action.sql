@@ -61,6 +61,13 @@
 -- INSERT INTO roles(name)
 -- VALUES('user'), ('admin'), ('super admin');
 
-SELECT * FROM roles;
+-- SELECT roles.name
+-- FROM user_roles
+-- JOIN roles ON roles.id = user_roles.role
+-- WHERE user_roles.login =1
+
+-- DELETE FROM logins WHERE id=1;
+
+-- SELECT * FROM roles
 
 
