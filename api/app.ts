@@ -1,4 +1,5 @@
 import express, { Express, NextFunction, Request, Response } from "express";
+import cors, { CorsOptions } from "cors";
 import path from "path";
 
 import IController from "./interfaces/controller.interface";
@@ -8,6 +9,9 @@ import env from "./env";
 class App {
 
     private app: Express;
+    private options:CorsOptions = {
+       origin: [env.FRONTEND_URL]
+    };
 
     constructor(controllers: IController[]) {
 
@@ -19,6 +23,7 @@ class App {
 
     private initializeMiddlewares() {
 
+        this.app.use(cors(this.options));
         this.app.use(express.json());
         this.app.use(express.urlencoded({ extended: true }));
 
@@ -40,11 +45,7 @@ class App {
             this.app.use("/", controller.router);
         });
 
-        this.app.get("/", (req: Request, res: Response) => {
-
-            res.sendFile(path.join(__dirname, '..', 'public', 'index.htm'));
-
-        });
+        this.app.use(express.static("public"));
 
         this.app.use(this.errorHandler);
 

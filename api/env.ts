@@ -5,7 +5,7 @@ import { cleanEnv, str, email, json, port, url, num } from 'envalid'
 
 config();
 
-export const env = cleanEnv(process.env, {
+const env = cleanEnv(process.env, {
     POSTGRES_USER: str(),
     POSTGRES_PASSWORD: str(),
     POSTGRES_HOST: str(),
@@ -15,7 +15,8 @@ export const env = cleanEnv(process.env, {
 
     JWT_SECRET: str(),
     FRONTEND_URL: url(),
-    SALT_ROUND: num()
+    SALT_ROUND: num(),
+    UPLOAD_PATH:str()
 });
 
 // //:TO DEPLOY TO VERCEL 

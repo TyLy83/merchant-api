@@ -25,7 +25,7 @@ class ProductRepository implements IRepository {
     async findRecord(id: number): Promise<Model> {
 
         const result = await db.query(`
-            SELECT id, name, price, category 
+            SELECT id, name, price, category, store 
             FROM ${this.table} 
             WHERE id=$1
         `, [id]);

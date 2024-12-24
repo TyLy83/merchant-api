@@ -14,10 +14,10 @@ class ProductVariantRepository implements Repostiry {
     async createRecord(model: Model): Promise<Model> {
 
         const result = await db.query(`
-                INSERT INTO ${this.table}(name, max_number, min_number, product)
-                VALUES($1, $2, $3, $4)
-                RETURNING id, name, max_number, min_number
-            `, [model.name, model.max_number, model.min_number, model.product]);
+                INSERT INTO ${this.table}(name, max_number, min_number, product, required)
+                VALUES($1, $2, $3, $4, $5)
+                RETURNING id, name, max_number, min_number, product, required
+            `, [model.name, model.max_number, model.min_number, model.product, model.required]);
 
         return result.rows[0];
 
@@ -26,7 +26,7 @@ class ProductVariantRepository implements Repostiry {
     async findRecord(id: number): Promise<Model> {
 
         const result = await db.query(`
-                SELECT id, name, max_number, min_number
+                SELECT id, name, max_number, min_number, required
                 FROM ${this.table}
                 WHERE id=$1
             `, [id]);
@@ -63,7 +63,7 @@ class ProductVariantRepository implements Repostiry {
     async findAllRecords(product: number): Promise<Model[]> {
 
         const result = await db.query(`
-                SELECT id, name, max_number, min_number
+                SELECT id, name, max_number, min_number, required
                 FROM ${this.table}
                 WHERE product=$1
             `, [product]);

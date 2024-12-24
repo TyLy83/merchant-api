@@ -158,9 +158,11 @@ class Location extends IController {
                 model.city = request.body.city as string;
                 model.country = request.body.country as string;
 
+                // console.log("model", model);
+
                 const result = await this.service.editLocation(model);
 
-                response.status(201).json(result);
+                response.status(200).json(result);
 
             } else {
 

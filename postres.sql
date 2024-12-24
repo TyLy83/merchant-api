@@ -69,7 +69,7 @@
 -- 	required BOOLEAN NOT NULL,
 -- 	CONSTRAINT fk_products
 -- 		FOREIGN KEY(product)
--- 		REFERENCES categories(id)
+-- 		REFERENCES products(id)
 -- 		ON DELETE CASCADE
 -- );
 
@@ -156,3 +156,14 @@
 -- 		REFERENCES roles(id)
 -- 		ON DELETE CASCADE
 -- );
+
+CREATE TABLE product_images(
+	id SERIAL PRIMARY KEY,
+	name VARCHAR NOT NULL,
+	path VARCHAR NOT NULL,
+	product INT NOT NULL,
+	CONSTRAINT fk_products
+		FOREIGN KEY(product)
+		REFERENCES products(id)
+		ON DELETE CASCADE	
+);

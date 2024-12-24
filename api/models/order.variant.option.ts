@@ -4,8 +4,7 @@ class Model implements IModel {
 
     id?: number | undefined;
     order_variant?: number | undefined;
-    price: number | undefined;
-    name?: string | undefined;
+    product_variant_option: number | undefined;
 
 }
 

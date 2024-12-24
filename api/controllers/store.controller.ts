@@ -133,14 +133,6 @@ class Store extends IController {
 
             if (errors.isEmpty()) {
 
-                // const { id } = request.params;
-                // const { name } = request.body;
-
-                // const query = "UPDATE stores SET name = $2  WHERE id = $1 RETURNING *";
-                // const result = await db.query(query, [id, name]);
-
-                // response.status(200).json({ ...result.rows[0] });
-
                 const model = new Model();
 
                 model.id = parseInt(request.params.id as string)
@@ -148,7 +140,7 @@ class Store extends IController {
 2
                 const result = await this.service.editStore(model);
 
-                response.status(201).json(result);
+                response.status(200).json(result);
 
             } else {
 
@@ -171,26 +163,11 @@ class Store extends IController {
 
             if (errors.isEmpty()) {
 
-                // const { id } = request.params;
-
-                // const result = await db.query(`
-                //     SELECT id, name FROM stores
-                //     WHERE id = $1
-                // `, [id]);
-
-                // const locations = await db.query(`
-                //         SELECT id, street_number, street_name, suburb, city, country, postal_code 
-                //         FROM locations 
-                //         WHERE store = $1
-                //     `, [id]);
-
-                // response.status(200).json({ ...result.rows[0], locations: [...locations.rows] });
-
                 const id: number = parseInt(request.params.id as string)
 
                 const result = await this.service.getStore(id);
 
-                response.status(201).json(result);
+                response.status(200).json(result);
 
             } else {
 

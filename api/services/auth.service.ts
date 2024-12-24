@@ -56,11 +56,18 @@ class AuthService {
 
         const user_roles: string[] = roles.map(({ name }) => name);
 
-        const token = jwt.sign({ id: user.id, email: user.email, user_roles }, env.JWT_SECRET, { expiresIn: "1hr" })
+        const token = jwt.sign({ id: user.id, email: user.email, user_roles }, env.JWT_SECRET, { expiresIn: "1d" })
 
         // user.password = undefined;
 
-        return { token }
+        return { 
+            token, 
+            user: {
+                id: id,
+                first_name: user.first_name,
+                last_name: user.last_name
+            }
+        }
 
     }
 

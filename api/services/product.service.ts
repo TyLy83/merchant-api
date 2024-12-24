@@ -1,5 +1,9 @@
 import Repository from "../repositories/product.repository";
 import ProductVariantRepository from "../services/product.variant.service";
+import StoreRepository from "../repositories/store.repository";
+import CategoryRepository from "../repositories/category.repository";
+import ProductImageRepository from "../repositories/product.image.repository";
+
 import Model from "../models/product.model";
 
 import { NotFoundError, BadRequestError } from "../errors";
@@ -9,6 +13,9 @@ class ProductVariantService {
 
     private repository = new Repository();
     private productVariants = new ProductVariantRepository();
+    private stores = new StoreRepository();
+    private categories = new CategoryRepository();
+    private images = new ProductImageRepository();
 
     async addProduct(product: Model) {
 
@@ -41,6 +48,28 @@ class ProductVariantService {
 
     }
 
+    async getCategory(category:number) {
+
+        const result = await this.categories.findRecord(category);
+
+        return result;
+
+    }
+
+    async getStore(store: number) {
+
+        const result = await this.stores.findRecord(store);
+        return result;
+
+    }
+
+    async getProductImage(product:number) {
+
+        const result = await this.images.findAllRecords(product);
+        return result;
+
+    }
+
     async getProduct(id: number) {
 
         const result = await this.repository.findRecord(id);
@@ -50,7 +79,11 @@ class ProductVariantService {
 
         const product_variants = await this.getProductVariants(id);
 
-        return { ...result, product_variants }
+        const store = await this.getStore(result.store as number);
+        const category = await this.getCategory(result.category as number);
+        const images = await this.getProductImage(id);
+
+        return { ...result, store, category, product_variants:[...product_variants], images:[...images] }
 
     }
 

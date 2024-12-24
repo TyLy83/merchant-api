@@ -78,6 +78,9 @@ class ProductVariant extends IController {
             model.max_number = request.body.max_number;
             model.min_number = request.body.min_number;
             model.product = request.body.product;
+            model.required = request.body.required;
+
+            console.log("model", model);
 
             const result = await this.service.addProductVariant(model);
 

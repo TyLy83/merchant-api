@@ -70,4 +70,9 @@
 
 -- SELECT * FROM roles
 
+-- SELECT * FROM product_variants
+
+SELECT * FROM product_images
+-- WHERE id=1
+
 

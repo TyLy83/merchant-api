@@ -7,6 +7,7 @@ class Model implements IModel {
     max_number?: number | undefined;
     min_number?: number | undefined;
     product?: number | undefined;
+    required?:boolean | undefined;
 
 }
 

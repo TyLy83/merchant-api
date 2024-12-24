@@ -73,7 +73,7 @@ class Category extends IController {
 
                 const model = new Model();
 
-                model.name = request.body as string;
+                model.name = request.body.name as string;
                 model.store = parseInt(request.body.store as string);
 
                 const result = await this.service.addCategory(model);

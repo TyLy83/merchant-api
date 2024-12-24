@@ -68,7 +68,7 @@ class AuthRepository implements IRepository {
     async findRecordByEmail(email: string): Promise<Model> {
 
         const result = await db.query(`
-                SELECT id, email, password
+                SELECT id, email, password, first_name, last_name
                 FROM ${this.table}
                 WHERE email=$1
             `, [email]);

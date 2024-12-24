@@ -1,8 +1,14 @@
 import { NextFunction, Request, Response } from "express";
 import { param, query, body, validationResult, FieldValidationError } from "express-validator";
+import multer from "multer";
+import sharp from "sharp";
+import path from "path";
+import fs from "fs";
+
 import IController from "../interfaces/controller.interface";
 import Service from "../services/product.service";
 import Model from "../models/product.model";
+import { BadRequestError, NotFoundError } from "../errors";
 
 import db from "../db";
 
@@ -35,6 +41,44 @@ class Product extends IController {
         param('id', 'Product id must not be empty').notEmpty().escape()
     ];
 
+    private upload = multer({
+        storage: multer.diskStorage({
+            destination: function (req:Request, file, callback) {
+
+                const id = req.params.id;
+
+                const dir = path.join("./public/uploads/", `${id}`);
+
+                if(!fs.existsSync(dir))
+                    fs.mkdirSync(dir)
+
+                callback(null, dir);
+
+                // cb(null, "./public/uploads/")
+            },
+            filename: function (req: any, file: any, callback: any) {
+
+                // const id = req.params.id
+                callback(null, file.originalname)
+                // cb(null, `${id}.png`)
+            }
+        }),
+        fileFilter: (req: any, file: any, cb: any) => {
+            if (file.mimetype === "image/jpg" ||
+                file.mimetype === "image/jpeg" ||
+                file.mimetype === "image/png") {
+
+                cb(null, true);
+
+            } else {
+                cb(new Error("Image uploaded is not of type jpg/jpeg or png"), false);
+            }
+        },
+        limits: {
+            fileSize: 5 * 1024 * 1024,
+        }
+    });
+
     constructor() {
         super("/products");
         this.initializeRoutes();
@@ -47,6 +91,7 @@ class Product extends IController {
         this.router.put(`${this.path}/edit/:id`, this.editValidator, this.editProduct);
         this.router.get(`${this.path}/details/:id`, this.getValidator, this.getProduct);
         this.router.delete(`${this.path}/delete/:id`, this.deleteValidator, this.deleteProduct);
+        this.router.put(`${this.path}/images/:id`, this.upload.single("image"), this.uploadImage);
     }
 
     private getProducts = async (request: Request, response: Response, next: NextFunction) => {
@@ -198,6 +243,44 @@ class Product extends IController {
 
     }
 
+    private uploadImage = async (request: Request, response: Response, next: NextFunction) => {
+
+        try {
+
+            const file = request.file;
+            const id: number = parseInt(request.params.id as string);
+            const protocol = request.protocol;
+            const host = request.get('host');
+
+            if (file) {
+
+                const newFilePath = path.resolve(file.destination, `${id}__.png`);
+
+                console.log(newFilePath);
+
+                const __file =  await sharp(file.path)
+                    .resize()
+                    .toFile(newFilePath);
+
+                fs.unlinkSync(file.path);
+
+
+                response.json(__file);
+
+            } else {
+                throw new NotFoundError("file not found");
+            }
+
+
+        } catch (error) {
+
+            next(error);
+
+        }
+        // console.log('file', file);
+
+        // response.json({});
+    }
 }
 
 export default Product;

@@ -11,6 +11,8 @@ import ProdcutVariantOptionController from "./controllers/product.variant.option
 import RoleController from "./controllers/role.controller";
 import UserRoleController from "./controllers/user.role.controller";
 
+import ProductImageController from "./controllers/product.image.controller";
+
 const app = new App([
     new AuthController(), 
     new ContactController(), 
@@ -21,7 +23,8 @@ const app = new App([
     new CategoryController(),
     new ProdcutVariantOptionController(),
     new RoleController(),
-    new UserRoleController()
+    new UserRoleController(),
+    new ProductImageController()
 ]);
 
 app.listen();
